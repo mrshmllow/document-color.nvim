@@ -10,6 +10,7 @@ use { 'mrshmllow/document-color.nvim', config = function()
     -- Default options
     mode = "background", -- "background" | "foreground"
   }
+  end
 }
 ```
 
