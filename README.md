@@ -1,5 +1,5 @@
-# document-color.nvim
-A plugin for lsp clients that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)
+# document-color.nvim 🌈
+A plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss) and any lsp clients that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)!
 
 https://user-images.githubusercontent.com/40532058/184632580-e1d47e01-8c97-4ddd-b23c-aae54536d892.mov
 
@@ -51,8 +51,12 @@ require("document-color").buf_attach()
 require("document-color").buf_detach()
 ```
 
-## 🔮
-When (or if) [anti-conceal](https://github.com/neovim/neovim/pull/9496) ever gets merged, it may be possible to have something like this!
+## Notes
+- You should probably keep your existing colorizer plugin, this plugin does not replace it
+- I am only using "color" and not "colour" because thats what the lsp specs say, not because i believe in such heresy to the queen
+
+## 🔮 A future...
+When (or if) [anti-conceal](https://github.com/neovim/neovim/pull/9496) ever gets merged, it may be possible to have something like the tailwindcss vscode extension has
 
 ![image](https://user-images.githubusercontent.com/40532058/184592957-99705666-c26f-4ee9-b804-42201db7dd9a.png)
 
