@@ -109,4 +109,13 @@ function M.buf_detach(bufnr)
   STATE.ATTACHED_BUFFERS[bufnr] = nil
 end
 
+function M.buf_toggle(bufnr)
+  bufnr = helpers.get_bufnr(bufnr)
+  if STATE.ATTACHED_BUFFERS[bufnr] then
+    M.buf_detach(bufnr)
+  else
+    M.buf_attach(bufnr)
+  end
+end
+
 return M

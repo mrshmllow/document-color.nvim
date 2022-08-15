@@ -31,6 +31,9 @@ require("lspconfig").tailwindcss.setup{
 ### Methods
 
 ```lua
+-- Toggle in current buffer
+require("document-color").buf_toggle()
+
 -- Attach to the current buffer (Turn on)
 require("document-color").buf_attach()
 
