@@ -1,5 +1,5 @@
 # document-color.nvim 🌈
-A colorizer plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss) and any lsp clients that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)!
+A colorizer plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss) and any lsp servers that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)!
 
 https://user-images.githubusercontent.com/40532058/184632580-e1d47e01-8c97-4ddd-b23c-aae54536d892.mov
 
