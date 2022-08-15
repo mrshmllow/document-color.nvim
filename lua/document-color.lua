@@ -71,7 +71,7 @@ function M.buf_attach(bufnr, options)
   STATE.ATTACHED_BUFFERS[bufnr] = true -- Attach to this buffer
 
   -- VSCode extension also does 200ms debouncing
-  local trigger_update_highlight, timer = require("defer").debounce_trailing(
+  local trigger_update_highlight, timer = require("document-color.defer").debounce_trailing(
     M.update_highlights,
     options.debounce or 200,
     false
