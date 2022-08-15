@@ -1,6 +1,8 @@
 # document-color.nvim
 A plugin for lsp clients that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)
 
+https://user-images.githubusercontent.com/40532058/184632580-e1d47e01-8c97-4ddd-b23c-aae54536d892.mov
+
 ## Installation & Usage
 ```lua
 use { 'mrshmllow/document-color.nvim', config = function()
@@ -10,6 +12,14 @@ use { 'mrshmllow/document-color.nvim', config = function()
   }
 }
 ```
+
+<details>
+<summary>What does foreground mode look like?</summary>
+<br>
+
+![image](https://user-images.githubusercontent.com/40532058/184633209-32427b6b-0f08-468b-ae6f-977950b96000.png)
+
+</details>
 
 For a typical [lspconfig](https://github.com/neovim/nvim-lspconfig) setup...
 ```lua
