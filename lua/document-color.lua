@@ -4,23 +4,29 @@ local M = {}
 local NAMESPACE = vim.api.nvim_create_namespace("lsp_documentColor")
 local MODE_NAMES = { background = "mb", foreground = "mf" }
 
+local OPTIONS = {
+  mode = "background",
+}
+
 local STATE = {
   ATTACHED_BUFFERS = {},
   HIGHLIGHTS = {}
 }
 
-local function create_highlight(color, options)
-  local mode = options.mode or "background"
+function M.setup(options)
+  OPTIONS = helpers.merge(OPTIONS, options)
+end
 
+local function create_highlight(color)
   -- This will create something like "mb_d023d9"
-  local cache_key = table.concat({ MODE_NAMES[mode], color }, "_")
+  local cache_key = table.concat({ MODE_NAMES[OPTIONS.mode], color }, "_")
 
   if STATE.HIGHLIGHTS[cache_key] then return STATE.HIGHLIGHTS[cache_key] end
 
   -- This will create something like "lsp_documentColor_mb_d023d9", safe to start adding to neovim
-  local highlight_name = table.concat({ "lsp_documentColor", MODE_NAMES[mode], color }, "_")
+  local highlight_name = table.concat({ "lsp_documentColor", MODE_NAMES[OPTIONS.mode], color }, "_")
 
-  if mode == "foreground" then
+  if OPTIONS.mode == "foreground" then
     vim.cmd(string.format("highlight %s guifg=#%s", highlight_name, color))
   else
     -- TODO: Make this bit less dumb, especially since helpers.lsp_color_to_hex exists
@@ -44,7 +50,7 @@ local function create_highlight(color, options)
 end
 
 --- Fetch and update highlights in the buffer
-function M.update_highlights(bufnr, options)
+function M.update_highlights(bufnr)
   local params = { textDocument = vim.lsp.util.make_text_document_params() }
 
   vim.lsp.buf_request(bufnr, "textDocument/documentColor", params, function(err, colors, _, _)
@@ -58,13 +64,13 @@ function M.update_highlights(bufnr, options)
 
         local range = color_info.range
         -- Start highlighting range with color inside `bufnr`
-        vim.api.nvim_buf_add_highlight(bufnr, NAMESPACE, create_highlight(color_info.color, options), range.start.line, range.start.character, range["end"].character)
+        vim.api.nvim_buf_add_highlight(bufnr, NAMESPACE, create_highlight(color_info.color), range.start.line, range.start.character, range["end"].character)
       end
     end
   end)
 end
 
-function M.buf_attach(bufnr, options)
+function M.buf_attach(bufnr)
   bufnr = helpers.get_bufnr(bufnr)
 
   if STATE.ATTACHED_BUFFERS[bufnr] then return end -- We are already attached to this buffer, ignore
@@ -73,21 +79,20 @@ function M.buf_attach(bufnr, options)
   -- VSCode extension also does 200ms debouncing
   local trigger_update_highlight, timer = require("document-color.defer").debounce_trailing(
     M.update_highlights,
-    options.debounce or 200,
+    150,
     false
   )
 
   -- for the first request, the server needs some time before it's ready
-  -- sometimes 200ms is not enough for this
   -- TODO: figure out when the first request can be send
-  trigger_update_highlight(bufnr, options)
+  trigger_update_highlight(bufnr)
 
   vim.api.nvim_buf_attach(bufnr, false, {
     on_lines = function()
       if not STATE.ATTACHED_BUFFERS[bufnr] then
-        return true
+        return true -- detach
       end
-      trigger_update_highlight(bufnr, options)
+      trigger_update_highlight(bufnr)
     end,
     on_detach = function()
       timer:close()
@@ -97,6 +102,7 @@ function M.buf_attach(bufnr, options)
 end
 
 --- Can be used to detach from the buffer at any time
+-- TODO: We probably leak memory here because we cant call timer:close(), and we make a new timer every attach
 function M.buf_detach(bufnr)
   bufnr = helpers.get_bufnr(bufnr)
   vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)

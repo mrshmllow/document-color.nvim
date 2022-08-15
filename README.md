@@ -3,7 +3,12 @@ A plugin for lsp clients that support [`textDocument/documentColor`](https://mic
 
 ## Installation & Usage
 ```lua
-use 'mrshmllow/document-color.nvim'
+use { 'mrshmllow/document-color.nvim', config = function()
+  require("document-color").setup {
+    -- Default options
+    mode = "background", -- "background" | "foreground"
+  }
+}
 ```
 
 For a typical [lspconfig](https://github.com/neovim/nvim-lspconfig) setup...
@@ -21,6 +26,16 @@ end
 require("lspconfig").tailwindcss.setup{
   on_attach = on_attach
 }
+```
+
+### Methods
+
+```lua
+-- Attach to the current buffer (Turn on)
+require("document-color").buf_attach()
+
+-- Detach from current buffer (Turn off)
+require("document-color").buf_detach()
 ```
 
 ## 🔮
