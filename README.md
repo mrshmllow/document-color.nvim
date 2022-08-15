@@ -1,5 +1,5 @@
 # document-color.nvim 🌈
-A plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss) and any lsp clients that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)!
+A colorizer plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss) and any lsp clients that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)!
 
 https://user-images.githubusercontent.com/40532058/184632580-e1d47e01-8c97-4ddd-b23c-aae54536d892.mov
 
@@ -61,5 +61,5 @@ When (or if) [anti-conceal](https://github.com/neovim/neovim/pull/9496) ever get
 ![image](https://user-images.githubusercontent.com/40532058/184592957-99705666-c26f-4ee9-b804-42201db7dd9a.png)
 
 ## Credits
-- [kabouzeid](https://github.com/kabouzeid) and his great dotfiles. Inspired by this reddit post, chunks of this plugin are from him. ❤️
+- [kabouzeid](https://github.com/kabouzeid) and his great dotfiles. Inspired by his reddit post, chunks of this plugin are from his dotfiles. ❤️
 - https://github.com/norcalli/nvim-colorizer.lua
