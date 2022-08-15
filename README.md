@@ -28,7 +28,7 @@ local on_attach = function(client)
   ...
   if client.server_capabilities.colorProvider then
     -- Attach document colour support
-    require("document-color").buf_attach(bufnr, { mode = "background" })
+    require("document-color").buf_attach(bufnr)
   end
   ...
 end
