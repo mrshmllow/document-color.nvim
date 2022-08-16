@@ -55,9 +55,6 @@ function M.update_highlights(bufnr)
 
   vim.lsp.buf_request(bufnr, "textDocument/documentColor", params, function(err, colors, _, _)
     if err == nil and colors ~= nil then -- There is no error and we actually got something back
-      -- Clear all our in the buffer highlights
-      vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
-
       -- `_` is a TextDocumentIdentifier, not important
       for _, color_info in pairs(colors) do
         color_info.color = helpers.lsp_color_to_hex(color_info.color)
