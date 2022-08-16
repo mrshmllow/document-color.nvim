@@ -76,33 +76,27 @@ function M.buf_attach(bufnr)
   if STATE.ATTACHED_BUFFERS[bufnr] then return end -- We are already attached to this buffer, ignore
   STATE.ATTACHED_BUFFERS[bufnr] = true -- Attach to this buffer
 
-  -- VSCode extension also does 200ms debouncing
-  local trigger_update_highlight, timer = require("document-color.defer").debounce_trailing(
-    M.update_highlights,
-    150,
-    false
-  )
-
-  -- for the first request, the server needs some time before it's ready
-  -- TODO: figure out when the first request can be send
-  trigger_update_highlight(bufnr)
-
   vim.api.nvim_buf_attach(bufnr, false, {
     on_lines = function()
       if not STATE.ATTACHED_BUFFERS[bufnr] then
         return true -- detach
       end
-      trigger_update_highlight(bufnr)
+      M.update_highlights(bufnr)
     end,
     on_detach = function()
-      timer:close()
       STATE.ATTACHED_BUFFERS[bufnr] = nil
     end
   })
+
+  -- Wait for tailwind to load. 150 to be safe
+  -- After further investiation, tailwind seems to be sluggish for *every* new buffer!!
+  vim.wait(150, function () end)
+
+  -- Try again after some time
+  M.update_highlights(bufnr)
 end
 
 --- Can be used to detach from the buffer at any time
--- TODO: We probably leak memory here because we cant call timer:close(), and we make a new timer every attach
 function M.buf_detach(bufnr)
   bufnr = helpers.get_bufnr(bufnr)
   vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
