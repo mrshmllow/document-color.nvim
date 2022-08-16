@@ -8,17 +8,29 @@ A colorizer plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/bl
 use { 'mrshmllow/document-color.nvim', config = function()
   require("document-color").setup {
     -- Default options
-    mode = "background", -- "background" | "foreground"
+    mode = "background", -- "background" | "foreground" | "single"
   }
   end
 }
 ```
 
 <details>
+<summary>What is "single" mode?</summary>
+<br>
+
+For people who don't like large bright chunks of their buffer un-colorschemed, `single` column mode is a compromise until anti-conceal.
+
+!["single" mode](https://user-images.githubusercontent.com/40532058/184829642-e6f83acc-dece-4ee0-b17f-86e119a4f966.png)
+---
+
+</details>
+
+<details>
 <summary>What does foreground mode look like?</summary>
 <br>
 
 ![image](https://user-images.githubusercontent.com/40532058/184633209-32427b6b-0f08-468b-ae6f-977950b96000.png)
+---
 
 </details>
 
@@ -60,6 +72,8 @@ require("document-color").buf_detach()
 When (or if) [anti-conceal](https://github.com/neovim/neovim/pull/9496) ever gets merged, it may be possible to have something like the tailwindcss vscode extension has
 
 ![image](https://user-images.githubusercontent.com/40532058/184592957-99705666-c26f-4ee9-b804-42201db7dd9a.png)
+
+for now, we only have `mode = "single"`
 
 ## Credits
 - [kabouzeid](https://github.com/kabouzeid) and his great dotfiles. Inspired by his reddit post, chunks of this plugin are from his dotfiles. ❤️

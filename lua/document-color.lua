@@ -2,7 +2,7 @@ local helpers = require('document-color.helpers')
 
 local M = {}
 local NAMESPACE = vim.api.nvim_create_namespace("lsp_documentColor")
-local MODE_NAMES = { background = "mb", foreground = "mf" }
+local MODE_NAMES = { background = "mb", foreground = "mf", single = "mb" }
 
 local OPTIONS = {
   mode = "background",
@@ -61,7 +61,14 @@ function M.update_highlights(bufnr)
 
         local range = color_info.range
         -- Start highlighting range with color inside `bufnr`
-        vim.api.nvim_buf_add_highlight(bufnr, NAMESPACE, create_highlight(color_info.color), range.start.line, range.start.character, range["end"].character)
+        vim.api.nvim_buf_add_highlight(
+          bufnr,
+          NAMESPACE,
+          create_highlight(color_info.color),
+          range.start.line,
+          range.start.character,
+          OPTIONS.mode == "single" and range.start.character + 1 or range["end"].character
+        )
       end
     end
   end)
