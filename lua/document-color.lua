@@ -93,7 +93,7 @@ function M.buf_attach(bufnr)
   })
 
   -- Wait for tailwind to load. 150 to be safe
-  -- After further investiation, tailwind seems to be sluggish for *every* new buffer!!
+  -- After further investiation, servers seem to be sluggish for *every* new buffer!!
   vim.wait(150, function () end)
 
   -- Try again after some time

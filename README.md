@@ -72,6 +72,23 @@ require("document-color").buf_attach()
 require("document-color").buf_detach()
 ```
 
+## Tips & Tricks
+
+- Disable [nvim-colorizer.nvim](https://github.com/norcalli/nvim-colorizer.lua) in places its now redundent
+```lua
+-- Colorize
+use { 'norcalli/nvim-colorizer.lua', config = function ()
+  require('colorizer').setup({
+    '*';
+    -- An example
+    '!css';
+    '!html';
+    '!tsx';
+    '!dart';
+  })
+end }
+```
+
 ## Notes
 - You should probably keep your existing colorizer plugin, this plugin does not replace it in many cases
 - I am only using "color" and not "colour" because thats what the lsp specs say, not because i believe in such heresy to the queen
