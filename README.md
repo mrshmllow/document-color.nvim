@@ -1,6 +1,8 @@
 # document-color.nvim 🌈
 A colorizer plugin for [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss) and any lsp servers that support [`textDocument/documentColor`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentColor)!
 
+For example [tailwindcss](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tailwindcss), [cssls](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#cssls), and [dart](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#dartls) support documentColor!
+
 ![document-color.nvim demo](https://user-images.githubusercontent.com/40532058/184640748-8e71ad1e-c300-4040-b4f2-8a5bba3e9588.gif)
 
 ## Installation & Usage
@@ -45,10 +47,16 @@ local on_attach = function(client)
   ...
 end
 
--- Any lsp server that supports documentColor...
-require("lspconfig").tailwindcss.setup{
-  on_attach = on_attach
-}
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+-- You are now capable!
+capabilities.textDocument.colorProvider = true
+
+-- Lsp servers that support documentColor
+require("lspconfig").tailwindcss.setup({
+  on_attach = on_attach,
+  capabilities = capabilities
+})
 ```
 
 ### Methods
@@ -65,7 +73,7 @@ require("document-color").buf_detach()
 ```
 
 ## Notes
-- You should probably keep your existing colorizer plugin, this plugin does not replace it
+- You should probably keep your existing colorizer plugin, this plugin does not replace it in many cases
 - I am only using "color" and not "colour" because thats what the lsp specs say, not because i believe in such heresy to the queen
 
 ## 🔮 A future...
