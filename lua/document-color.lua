@@ -1,4 +1,4 @@
-local helpers = require('document-color.helpers')
+local helpers = require("document-color.helpers")
 
 local M = {}
 local NAMESPACE = vim.api.nvim_create_namespace("lsp_documentColor")
@@ -10,7 +10,7 @@ local OPTIONS = {
 
 local STATE = {
   ATTACHED_BUFFERS = {},
-  HIGHLIGHTS = {}
+  HIGHLIGHTS = {},
 }
 
 function M.setup(options)
@@ -21,7 +21,9 @@ local function create_highlight(color)
   -- This will create something like "mb_d023d9"
   local cache_key = table.concat({ MODE_NAMES[OPTIONS.mode], color }, "_")
 
-  if STATE.HIGHLIGHTS[cache_key] then return STATE.HIGHLIGHTS[cache_key] end
+  if STATE.HIGHLIGHTS[cache_key] then
+    return STATE.HIGHLIGHTS[cache_key]
+  end
 
   -- This will create something like "lsp_documentColor_mb_d023d9", safe to start adding to neovim
   local highlight_name = table.concat({ "lsp_documentColor", MODE_NAMES[OPTIONS.mode], color }, "_")
@@ -33,15 +35,13 @@ local function create_highlight(color)
     local r, g, b = color:sub(1, 2), color:sub(3, 4), color:sub(5, 6) -- consider "3b82f6". `r` = "3b"
     r, g, b = tonumber(r, 16), tonumber(g, 16), tonumber(b, 16) -- eg. Change "3b" -> "59"
 
-    vim.cmd(
-      string.format(
-        "highlight %s guifg=%s guibg=#%s",
-        highlight_name,
-        -- Choose the right foreground
-        helpers.color_is_bright(r, g, b) and "Black" or "White",
-        color
-      )
-    )
+    vim.cmd(string.format(
+      "highlight %s guifg=%s guibg=#%s",
+      highlight_name,
+      -- Choose the right foreground
+      helpers.color_is_bright(r, g, b) and "Black" or "White",
+      color
+    ))
   end
 
   STATE.HIGHLIGHTS[cache_key] = highlight_name
@@ -80,7 +80,9 @@ end
 function M.buf_attach(bufnr)
   bufnr = helpers.get_bufnr(bufnr)
 
-  if STATE.ATTACHED_BUFFERS[bufnr] then return end -- We are already attached to this buffer, ignore
+  if STATE.ATTACHED_BUFFERS[bufnr] then
+    return
+  end -- We are already attached to this buffer, ignore
   STATE.ATTACHED_BUFFERS[bufnr] = true -- Attach to this buffer
 
   vim.api.nvim_buf_attach(bufnr, false, {
@@ -92,12 +94,12 @@ function M.buf_attach(bufnr)
     end,
     on_detach = function()
       STATE.ATTACHED_BUFFERS[bufnr] = nil
-    end
+    end,
   })
 
   -- Wait for tailwind to load. 150 to be safe
   -- After further investiation, servers seem to be sluggish for *every* new buffer!!
-  vim.wait(150, function () end)
+  vim.wait(150, function() end)
 
   -- Try again after some time
   M.update_highlights(bufnr)

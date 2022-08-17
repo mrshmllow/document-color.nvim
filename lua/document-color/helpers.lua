@@ -31,19 +31,22 @@ function M.lsp_color_to_hex(color)
     return math.floor(c * color.alpha * 255)
   end
 
-  return bit.tohex(bit.bor(bit.lshift(to256(color.red), 16), bit.lshift(to256(color.green), 8), to256(color.blue)), 6)
+  return bit.tohex(
+    bit.bor(bit.lshift(to256(color.red), 16), bit.lshift(to256(color.green), 8), to256(color.blue)),
+    6
+  )
 end
 
 --- Merge two tables
 function M.merge(...)
-	local res = {}
-	for i = 1,select("#", ...) do
-		local o = select(i, ...)
-		for k,v in pairs(o) do
-			res[k] = v
-		end
-	end
-	return res
+  local res = {}
+  for i = 1, select("#", ...) do
+    local o = select(i, ...)
+    for k, v in pairs(o) do
+      res[k] = v
+    end
+  end
+  return res
 end
 
 return M
