@@ -1,5 +1,5 @@
 # Contributing
-Please write meaningful commits. Start them with "fix:", "misc:", "feat:" etc.
+Please write meaningful commits. Start them with "fix:", "misc:", "feat:" etc when possible.
 
 For example `fix: outdated usage of buf_attach`.
 
