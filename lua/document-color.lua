@@ -54,11 +54,8 @@ function M.update_highlights(bufnr)
   local params = { textDocument = vim.lsp.util.make_text_document_params() }
 
   vim.lsp.buf_request(bufnr, "textDocument/documentColor", params, function(err, colors, _, _)
-    if err == nil and colors ~= nil then -- There is no error and we actually got something back
-
-      if not vim.api.nvim_buf_is_valid(bufnr) then
-        return
-      end
+    -- There is no error, the buffer is valid, and we actually got something back.
+    if err == nil and colors ~= nil and vim.api.nvim_buf_is_valid(bufnr) then
 
       -- Clear all our in the buffer highlights
       vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
