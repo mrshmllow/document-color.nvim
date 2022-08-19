@@ -54,7 +54,9 @@ function M.update_highlights(bufnr)
   local params = { textDocument = vim.lsp.util.make_text_document_params() }
 
   vim.lsp.buf_request(bufnr, "textDocument/documentColor", params, function(err, colors, _, _)
-    if err == nil and colors ~= nil then -- There is no error and we actually got something back
+    -- There is no error, the buffer is valid, and we actually got something back.
+    if err == nil and colors ~= nil and vim.api.nvim_buf_is_valid(bufnr) then
+
       -- Clear all our in the buffer highlights
       vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
 
@@ -108,7 +110,11 @@ end
 --- Can be used to detach from the buffer at any time
 function M.buf_detach(bufnr)
   bufnr = helpers.get_bufnr(bufnr)
-  vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
+
+  if vim.api.nvim_buf_is_valid(bufnr) then
+    vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
+  end
+
   STATE.ATTACHED_BUFFERS[bufnr] = nil
 end
 
