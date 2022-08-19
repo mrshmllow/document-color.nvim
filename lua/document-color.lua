@@ -110,7 +110,11 @@ end
 --- Can be used to detach from the buffer at any time
 function M.buf_detach(bufnr)
   bufnr = helpers.get_bufnr(bufnr)
-  vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
+
+  if vim.api.nvim_buf_is_valid(bufnr) then
+    vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACE, 0, -1)
+  end
+
   STATE.ATTACHED_BUFFERS[bufnr] = nil
 end
 
