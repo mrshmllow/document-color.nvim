@@ -50,7 +50,9 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 -- You are now capable!
-capabilities.textDocument.colorProvider = true
+capabilities.textDocument.colorProvider = {
+  dynamicRegistration = true
+}
 
 -- Lsp servers that support documentColor
 require("lspconfig").tailwindcss.setup({
